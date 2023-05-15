@@ -44,7 +44,7 @@ app.post('/', (req, res) => {
             const temp = weatherData.main.temp
             const weatherDescription = weatherData.weather[0].description
             const weatherCity = weatherData.name
-            const weatherIcon = weatherData.weather[0].icon
+            let weatherIcon = weatherData.weather[0].icon
             weatherIcon = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png"
 
             // Send an HTML response to the client
