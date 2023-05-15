@@ -8,7 +8,7 @@ const bodyParser = require('body-parser')
 
 // Create an Express app
 const app = express()
-const port = 3001 || process.env.PORT
+const port = process.env.PORT || 3002
 
 // Use body-parser middleware to parse incoming request bodies
 app.use(bodyParser.urlencoded({ extended: false }));
