@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+  height: 100vh;
+  background: url(https://www.thehomepagenetwork.com/wp-content/uploads/2022/01/Banner-Weather-765x288.jpg);
+  background-position: center;
+  background-size: cover;
+  backdrop-filter: blur(10px);
+}
+.form,
+.result {
+  background: white;
+  width: auto;
+  position: inherit;
+  margin: 0 auto;
+  padding: 2rem 4rem;
+  border-radius: 10in;
+}
+input {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+}
+input[type="text"] {
+  width: 150px;
+}
+
+.back {
+  border: 0;
+  background: transparent;
+  font-size: 3rem;
+}
+.go {
+  border: 0;
+  background: transparent;
+  font-size: 3rem;
+  vertical-align: middle;
+}
+
+.used {
+  font-size: 0.7rem;
+  padding: 1rem;
+}

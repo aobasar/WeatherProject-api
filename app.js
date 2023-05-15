@@ -1,3 +1,6 @@
+// Security
+require('dotenv').config();
+
 // Import required modules
 const express = require('express')
 const https = require('node:https')
@@ -5,7 +8,7 @@ const bodyParser = require('body-parser')
 
 // Create an Express app
 const app = express()
-const port = 3000
+const port = 3001 || process.env.PORT
 
 // Use body-parser middleware to parse incoming request bodies
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,12 +18,18 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/index.html")
 })
+app.get('/style.css', (req, res) => {
+    res.sendFile(__dirname + "/style.css")
+})
 
 // Define a route to handle POST requests
 app.post('/', (req, res) => {
-    const query = req.body.cityName
-    const apiKey = 'ba24c6018ddd72041749018d0c1b1ef8'
-    const unit = 'metric'
+    let query = req.body.cityName
+    if (query === '') {
+        query = 'San Diego'
+    }
+    const apiKey = process.env.apiKey
+    const unit = 'imperial'
     const url = 'https://api.openweathermap.org/data/2.5/weather?q=' + query + '&appid=' + apiKey + '&units=' + unit + '';
 
     // Make a GET request to the OpenWeatherMap API
@@ -40,12 +49,21 @@ app.post('/', (req, res) => {
 
             // Send an HTML response to the client
             res.type('html')
-            res.write('<body bgcolor="#f5f5f5">');
-            res.write('<img border="1" src="' + weatherIcon + '">');
-            res.write('<p>☁️The weather is currently ' + weatherDescription + '</p>')
-            res.write('<h1>')
-            res.write('🌡️The temperature in ' + weatherCity + ' is ' + temp + ' degrees Celcius')
-            res.write('</h1>')
+            res.write(`<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>OpenWeatherMap - Weather Api Demo</title>
+                <link rel="stylesheet" href="style.css" />
+            </head>
+            <body>`);
+            res.write('<div class="result">')
+            res.write('🌡️ The temperature in <h1>' + weatherCity + '<img border="0" valign="middle" src="' + weatherIcon + '">' + temp + '° Fahrenheit')
+            res.write('</h1><h2>The weather is currently ' + weatherDescription + '</h2>')
+            res.write(' <input type="button" class="back" value="👈" onclick="history.back()">')
+            res.write(`</div></body></html>`);
             res.send()
         })
 
@@ -59,8 +77,8 @@ app.listen(port, () => {
 })
 
 // List of imported modules
-/* 
+/*
 express
 https (native)
 json.parse
-*/ 
+*/
