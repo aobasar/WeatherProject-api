@@ -1,6 +1,7 @@
 // Security
 require('dotenv').config();
 
+
 // Import required modules
 const express = require('express')
 const https = require('node:https')
@@ -13,14 +14,13 @@ const port = process.env.PORT || 3002
 // Use body-parser middleware to parse incoming request bodies
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static('public'))
 
 // Define a route to serve the index.html file
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/index.html")
 })
-app.get('/style.css', (req, res) => {
-    res.sendFile(__dirname + "/style.css")
-})
+
 
 // Define a route to handle POST requests
 app.post('/', (req, res) => {
@@ -44,7 +44,7 @@ app.post('/', (req, res) => {
             const temp = weatherData.main.temp
             const weatherDescription = weatherData.weather[0].description
             const weatherCity = weatherData.name
-            var weatherIcon = weatherData.weather[0].icon
+            const weatherIcon = weatherData.weather[0].icon
             weatherIcon = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png"
 
             // Send an HTML response to the client
